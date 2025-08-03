@@ -140,6 +140,40 @@ app.get('/api/games/:id', (req, res) => {
   });
 });
 
+app.delete('/api/games/:id', (req, res) => {
+  const gameId = req.params.id;
+
+  db.serialize(() => {
+    db.run('DELETE FROM scores WHERE game_id = ?', [gameId], (err) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+
+      db.run('DELETE FROM players WHERE game_id = ?', [gameId], (err) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          return;
+        }
+
+        db.run('DELETE FROM games WHERE id = ?', [gameId], function(err) {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          }
+
+          if (this.changes === 0) {
+            res.status(404).json({ error: 'Game not found' });
+            return;
+          }
+
+          res.json({ message: 'Game deleted successfully' });
+        });
+      });
+    });
+  });
+});
+
 app.post('/api/games/:id/score', (req, res) => {
   const gameId = req.params.id;
   const { playerId, score, diceCombination, roundNumber } = req.body;

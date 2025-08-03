@@ -3,6 +3,7 @@ class FarkleApp {
         this.currentGame = null;
         this.currentDice = [];
         this.selectedDice = [];
+        this.selectedPlayer = null;
         this.init();
     }
 
@@ -80,12 +81,14 @@ class FarkleApp {
             games.forEach(game => {
                 const gameCard = document.createElement('div');
                 gameCard.className = 'game-card';
-                gameCard.onclick = () => this.loadGame(game.id);
                 
                 const finishedText = game.finished_at ? ' (Finished)' : ' (In Progress)';
                 
                 gameCard.innerHTML = `
-                    <h3>${game.name}${finishedText}</h3>
+                    <div class="game-card-header">
+                        <h3>${game.name}${finishedText}</h3>
+                        <button class="delete-game-btn" onclick="event.stopPropagation(); farkleApp.deleteGame(${game.id})">Delete</button>
+                    </div>
                     <div class="game-info">
                         <div>Players: ${game.player_count}</div>
                         <div>Target: ${game.target_score}</div>
@@ -93,6 +96,7 @@ class FarkleApp {
                     </div>
                 `;
                 
+                gameCard.onclick = () => this.loadGame(game.id);
                 container.appendChild(gameCard);
             });
         } catch (error) {
@@ -141,6 +145,7 @@ class FarkleApp {
         this.currentGame.players.forEach(player => {
             const playerCard = document.createElement('div');
             playerCard.className = 'player-card';
+            playerCard.dataset.playerId = player.id;
             
             if (this.currentGame.game.winner_id === player.id) {
                 playerCard.classList.add('winner');
@@ -151,19 +156,12 @@ class FarkleApp {
                 <div class="player-score">${player.total_score}</div>
             `;
             
+            playerCard.addEventListener('click', () => this.selectPlayer(player));
             playersContainer.appendChild(playerCard);
         });
 
-        const playerSelect = document.getElementById('current-player');
-        playerSelect.innerHTML = '';
-        this.currentGame.players.forEach(player => {
-            const option = document.createElement('option');
-            option.value = player.id;
-            option.textContent = player.name;
-            playerSelect.appendChild(option);
-        });
-
         this.updateScoreHistory();
+        this.updateSelectedPlayer();
     }
 
     updateScoreHistory() {
@@ -289,10 +287,39 @@ class FarkleApp {
         };
     }
 
+    selectPlayer(player) {
+        this.selectedPlayer = player;
+        this.updateSelectedPlayer();
+    }
+
+    updateSelectedPlayer() {
+        document.querySelectorAll('.player-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        if (this.selectedPlayer) {
+            const selectedCard = document.querySelector(`[data-player-id="${this.selectedPlayer.id}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+            }
+            
+            document.getElementById('selected-player-name').textContent = this.selectedPlayer.name;
+            document.getElementById('selected-player-info').classList.remove('hidden');
+            document.getElementById('add-score-btn').disabled = false;
+        } else {
+            document.getElementById('selected-player-info').classList.add('hidden');
+            document.getElementById('add-score-btn').disabled = true;
+        }
+    }
+
     async addScore(e) {
         e.preventDefault();
         
-        const playerId = document.getElementById('current-player').value;
+        if (!this.selectedPlayer) {
+            alert('Please select a player first');
+            return;
+        }
+        
         const score = parseInt(document.getElementById('score-value').value);
         const diceCombination = document.getElementById('dice-combo').value;
         
@@ -301,7 +328,7 @@ class FarkleApp {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    playerId: parseInt(playerId),
+                    playerId: this.selectedPlayer.id,
                     score,
                     diceCombination,
                     roundNumber: 1
@@ -318,6 +345,7 @@ class FarkleApp {
                 document.getElementById('score-form').reset();
                 document.getElementById('calculate-score').classList.add('hidden');
                 document.getElementById('dice-container').innerHTML = '';
+                this.selectedPlayer = null;
                 
                 await this.loadGame(this.currentGame.game.id);
             } else {
@@ -327,8 +355,32 @@ class FarkleApp {
             alert('Error adding score: ' + error.message);
         }
     }
+
+    async deleteGame(gameId) {
+        if (!confirm('Are you sure you want to delete this game? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/games/${gameId}`, {
+                method: 'DELETE'
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                this.loadGames();
+            } else {
+                alert(result.error || 'Error deleting game');
+            }
+        } catch (error) {
+            alert('Error deleting game: ' + error.message);
+        }
+    }
 }
 
+let farkleApp;
+
 document.addEventListener('DOMContentLoaded', () => {
-    new FarkleApp();
+    farkleApp = new FarkleApp();
 });

@@ -130,6 +130,28 @@ button:disabled {
     font-size: 14px;
 }
 
+.game-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.delete-game-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.3s;
+}
+
+.delete-game-btn:hover {
+    background: #c82333;
+}
+
 #game-header {
     display: flex;
     justify-content: space-between;
@@ -160,11 +182,29 @@ button:disabled {
     padding: 15px;
     text-align: center;
     border: 2px solid #eee;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.player-card:hover {
+    background: #e9ecef;
+    border-color: #667eea;
+}
+
+.player-card.selected {
+    background: #667eea;
+    color: white;
+    border-color: #5a6fd8;
 }
 
 .player-card.winner {
     border-color: #28a745;
     background: #d4edda;
+}
+
+.player-card.winner.selected {
+    background: #28a745;
+    color: white;
 }
 
 .player-name {
@@ -176,6 +216,24 @@ button:disabled {
 
 .player-score {
     font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.player-card.selected .player-score {
+    color: white;
+}
+
+#selected-player-info {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#selected-player-info p {
+    margin: 0;
     font-weight: bold;
     color: #667eea;
 }
