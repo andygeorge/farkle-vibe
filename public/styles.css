@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: white;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.section {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #5a6fd8;
+}
+
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+#players-list {
+    margin-bottom: 10px;
+}
+
+.player-input {
+    margin-bottom: 5px;
+}
+
+#add-player {
+    background: #28a745;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+#add-player:hover {
+    background: #218838;
+}
+
+#games-container {
+    display: grid;
+    gap: 15px;
+}
+
+.game-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.game-card:hover {
+    background: #f8f9fa;
+    border-color: #667eea;
+}
+
+.game-card h3 {
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.game-info {
+    color: #666;
+    font-size: 14px;
+}
+
+#game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+#back-to-menu {
+    background: #6c757d;
+}
+
+#back-to-menu:hover {
+    background: #5a6268;
+}
+
+#players-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.player-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid #eee;
+}
+
+.player-card.winner {
+    border-color: #28a745;
+    background: #d4edda;
+}
+
+.player-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.player-score {
+    font-size: 24px;
+    font-weight: bold;
+    color: #667eea;
+}
+
+#dice-container {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.dice {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dice:hover {
+    background: #f0f0f0;
+}
+
+.dice.selected {
+    background: #667eea;
+    color: white;
+    border-color: #5a6fd8;
+}
+
+#dice-roller {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#roll-dice, #calculate-score {
+    margin: 10px;
+}
+
+#calculate-score {
+    background: #28a745;
+}
+
+#calculate-score:hover {
+    background: #218838;
+}
+
+#scores-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.score-entry {
+    background: #f8f9fa;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.score-entry strong {
+    color: #667eea;
+}
+
+.score-meta {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    #players-container {
+        grid-template-columns: 1fr;
+    }
+    
+    #dice-container {
+        justify-content: center;
+    }
+    
+    .dice {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+}

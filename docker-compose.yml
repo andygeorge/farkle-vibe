@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  farkle-app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./farkle.db:/app/farkle.db
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
