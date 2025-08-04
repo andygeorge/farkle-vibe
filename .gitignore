@@ -1,3 +1,4 @@
+farkle.db
 # ---> Node
 # Logs
 logs
@@ -137,4 +138,3 @@ dist
 .pnp.*
 
 .claude
-farkle.db
