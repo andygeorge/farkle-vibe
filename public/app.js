@@ -366,12 +366,19 @@ class FarkleApp {
                 method: 'DELETE'
             });
 
-            const result = await response.json();
-
             if (response.ok) {
+                const result = await response.json();
                 this.loadGames();
             } else {
-                alert(result.error || 'Error deleting game');
+                let errorMessage = 'Error deleting game';
+                try {
+                    const result = await response.json();
+                    errorMessage = result.error || errorMessage;
+                } catch (jsonError) {
+                    // If response isn't JSON, use status text
+                    errorMessage = response.statusText || errorMessage;
+                }
+                alert(errorMessage);
             }
         } catch (error) {
             alert('Error deleting game: ' + error.message);
