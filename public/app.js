@@ -31,7 +31,31 @@ class FarkleApp {
             input.className = 'player-input';
             input.placeholder = `Player ${playerCount + 1}`;
             input.required = true;
-            playersList.appendChild(input);
+            
+            // Create a delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'delete-player-btn';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.onclick = (e) => {
+                e.stopPropagation();
+                this.removePlayerInput(input);
+            };
+            
+            // Create a container for the input and button
+            const container = document.createElement('div');
+            container.className = 'player-input-container';
+            container.appendChild(input);
+            container.appendChild(deleteBtn);
+            
+            playersList.appendChild(container);
+        }
+    }
+
+    removePlayerInput(input) {
+        const container = input.parentElement;
+        if (container) {
+            container.remove();
         }
     }
 
