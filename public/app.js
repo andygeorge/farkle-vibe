@@ -16,6 +16,10 @@ class FarkleApp {
         document.getElementById('new-game-form').addEventListener('submit', (e) => this.createGame(e));
         document.getElementById('add-player').addEventListener('click', () => this.addPlayerInput());
         document.getElementById('back-to-menu').addEventListener('click', () => this.showMenu());
+        document.getElementById('menu-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            this.showMenu();
+        });
         document.getElementById('score-form').addEventListener('submit', (e) => this.addScore(e));
         document.getElementById('roll-dice').addEventListener('click', () => this.rollDice());
         document.getElementById('calculate-score').addEventListener('click', () => this.calculateScore());
