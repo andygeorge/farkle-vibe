@@ -388,6 +388,21 @@ class FarkleApp {
         }
     }
 
+    // Add a simple MCP integration method for demonstration
+    async testMcpIntegration() {
+        try {
+            // This would be where we'd actually call the MCP server if it were running
+            console.log("MCP integration point - would connect to farkle scoring server");
+            
+            // For now, just show that we have access to the functionality
+            const dice = [1, 2, 3, 4, 5, 6];
+            const scoreResult = this.calculateFarkleScore(dice);
+            console.log("Test calculation:", scoreResult);
+        } catch (error) {
+            console.error('MCP integration test failed:', error);
+        }
+    }
+
     async deleteGame(gameId) {
         if (!confirm('Are you sure you want to delete this game? This action cannot be undone.')) {
             return;
