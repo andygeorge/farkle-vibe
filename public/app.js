@@ -153,6 +153,8 @@ class FarkleApp {
         document.getElementById('game-setup').classList.remove('hidden');
         document.getElementById('game-list').classList.remove('hidden');
         document.getElementById('game-play').classList.add('hidden');
+        // Show the start game button on main menu
+        document.getElementById('startGameButton').classList.remove('hidden');
         this.loadGames();
     }
 
@@ -160,6 +162,8 @@ class FarkleApp {
         document.getElementById('game-setup').classList.add('hidden');
         document.getElementById('game-list').classList.add('hidden');
         document.getElementById('game-play').classList.remove('hidden');
+        // Hide the start game button when on game screen
+        document.getElementById('startGameButton').classList.add('hidden');
     }
 
     updateGameDisplay() {
