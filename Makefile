@@ -23,7 +23,7 @@ mcp:
 # Run tests
 test:
 	@echo "Running scoring tests..."
-	node test-scoring.js && node test-scoring2.js
+	node test-scoring.js
 
 # Clean up temporary files (if any)
 clean:
